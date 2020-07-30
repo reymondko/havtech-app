@@ -1,0 +1,66 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-travelhost">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="event-landing-hero" *ngIf="event.event_types==2" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="gray-bar">
+    Travel Host
+  </div>
+  <div class="white-section" *ngIf="event.hosts">
+    <span *ngFor="let host of event.hosts">
+      <div class="host-wrapper">
+          <div class="host-img" [ngStyle]="{'background-image':'url('+host.thumb_image+')'}">
+          </div>
+          <div class="host-content">
+            <p class="host-label">Your Travel Host:</p>
+            <p class="host-title">{{host.host_name}}</p>
+            <p class="host-p" [innerHTML]="host.description | safeHtml"></p>
+        </div>
+      </div>
+      <a *ngIf="host.email_button == '1'" href="mailto:{{host.email}}" class="link-btn">
+        <button expand="block" class="email-host-btn">Email</button>
+      </a>
+    </span>
+  </div>
+  <span *ngIf="faqs" >
+    <div class="gray-bar flexy-bar">
+        Event Information
+      <button class="download-btn" *ngIf="faqs[0]?.download_link == '1'" (click)="downloadFromUrl(faqs[0]?.event_info_filename)">Download <img src="/assets/icon-pdf.svg" width="20" style="margin-left:8px;"></button>
+    </div>
+    <span *ngFor="let faq of faqs; index as i">
+      <div [ngClass]="(i%2==0)?'white-section':'white-section alt'">
+        <div class="faq-wrapper" >
+          <div class="question-wrapper">
+            <p class="question">
+            {{faq.faq_title}}
+            </p>
+            <div class="question-expand" (click)="toggleFaq(i)">
+              <img src="/assets/gray-icon-add22.svg" class="q-expand-icon" *ngIf="!faq.is_active" >
+              <img src="/assets/gray-icon-subtract24.svg" class="q-expand-icon" *ngIf="faq.is_active">
+            </div>
+          </div>
+          <p class="answer" *ngIf="faq.is_active" [innerHTML]="faq.faq_answer | safeHtml">
+          </p>
+        </div>
+      </div>
+    </span>
+  </span>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

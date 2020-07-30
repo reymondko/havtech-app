@@ -1,0 +1,35 @@
+<ion-app>
+  <ion-split-pane>
+    <ion-menu type="push" side="end" swipeGesture>
+      <ion-content class="context-menu">
+				<div class="nav-background sidebar-main-menu">
+        <ion-list lines="none">
+          <ion-menu-toggle auto-hide="true" *ngFor="let p of appPages">
+            <ion-item [routerLink]="[p.url]"  class="nav-link" routerDirection="'root'" no-lines>
+              <ion-label class="nav-link">
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="true">
+              <ion-item routerLink="/notifications" routerDirection="'root'" no-lines>
+                <ion-label class="nav-link">
+                  Notifications {{'('+ (notification_service?.notifications.unread?.length == null ? 0 : notification_service?.notifications.unread?.length ) +')'}}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="true">
+            <ion-item (click)="logout()" class="nav-link" no-lines>
+              <ion-label class="nav-link">
+                Sign Off
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+				</div>
+      </ion-content>
+    </ion-menu>
+    <span></span>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

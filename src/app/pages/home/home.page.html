@@ -1,0 +1,45 @@
+<app-header></app-header>
+<ion-content fullscreen class="context-homepage">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>  
+  <!-- LINKS FOR EASY ACCESS , delete -->
+  <!-- end link section -->
+
+  <div class="welcome-holder">
+      <p class="welcome-p">Welcome, <span class="blue-span">{{user?.first_name}} {{user?.last_name}}</span></p>
+  </div>
+  <div class="buttons">
+    <a routerLink="/myevents" routerDirection="forward" class="home-btn white-bg">
+      <div class="special-wrapper">
+      <img src="/assets/Havtech_logo_final_swoosh-_1_.svg" class="gray-swoosh">
+      <h3 class="home-btn-header gray-text">My Events</h3>
+      </div>
+      <img slot="end" src="/assets/arrow-gray.png" class="arrow">
+    </a>
+    <a routerLink="/special" routerDirection="forward" class="home-btn orange-bg">
+      <div class="special-wrapper">
+      <img src="/assets/white-star.svg" class="special-star">
+      <h3 class="home-btn-header">Special Events</h3>
+      </div>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+    <a routerLink="/general" routerDirection="forward" class="home-btn">
+      <h3 class="home-btn-header">General Events</h3>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+    <a routerLink="/learning" routerDirection="forward" class="home-btn gray-bg">
+      <h3 class="home-btn-header">Learning Institute</h3>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+    <!--<a routerLink="/upcoming" routerDirection="forward" class="home-btn">
+      <h3 class="home-btn-header">View All Upcoming Events</h3>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>!-->
+
+    <!-- <a routerLink="/news" routerDirection="forward" class="home-btn">
+      <h3 class="home-btn-header">Havtech News</h3>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a> -->
+ </div>
+</ion-content>

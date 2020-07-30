@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" text="" *ngIf="back_is_visible" routerLink="{{router_location}}" routerDirection="back">
+      <img slot="start" src="/assets/blue-arrow-back2.svg " class="nav-back-btn2">
+    </ion-buttons>
+    <img src="/assets/Havtech_eventshub_logo.svg" width="250" routerLink="/home" routerDirection="backward" class="nav-logo">
+    <ion-buttons slot="end">
+      <span class="current-notifications" *ngIf="notification_service?.notifications.unread?.length > 0">{{notification_service?.notifications.unread?.length}}</span>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

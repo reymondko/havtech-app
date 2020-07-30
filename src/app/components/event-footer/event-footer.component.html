@@ -1,0 +1,18 @@
+<div class="questions-div" *ngIf="e.current_selected_event_data?.event_host == '1'">
+  <p class="gray-bold-p">Have Questions?</p>
+  <p class="reg-p">
+  <span class="blue-span">
+    <a href="mailto:{{e.current_selected_event_data?.event_host_email}}" style="color:#004C97;text-decoration:none;">
+      Contact our event host
+    </a>
+  </span> 
+    by emailing 
+  <a href="mailto:{{e.current_selected_event_data?.event_host_email}}" style="color:#004C97;text-decoration:none;"><br>
+    <span *ngIf="e.current_selected_event_data?.event_host_title">{{e.current_selected_event_data?.event_host_title}} </span>
+    <span *ngIf="!e.current_selected_event_data?.event_host_title">{{e.current_selected_event_data?.event_host_email}} </span>
+  </a> 
+    <span class="footer-desc" [innerHTML]="e.current_selected_event_data?.event_host_description">
+
+    </span>
+  </p>
+</div> 

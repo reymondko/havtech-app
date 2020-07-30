@@ -1,0 +1,64 @@
+<app-header></app-header>
+<ion-content class="context-special-events-list">
+  <div class="orange-bar">
+    <h1 class="page-title">Profile</h1>
+  </div>
+  <div class="white-section">
+    <p class="event-title-p large">
+        Edit your profile below:
+    </p>
+    <br>
+    <div>
+      <form #form="ngForm" (ngSubmit)="updateProfile(form)">
+        <ion-label class="form-label">First Name:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="first_name" name="first_name" [(ngModel)]="user_data.first_name"></ion-input>
+
+        <ion-label class="form-label">Last Name:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="last_name" name="last_name" [(ngModel)]="user_data.last_name"></ion-input>
+
+        <ion-label class="form-label">Company:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="company" name="company" [(ngModel)]="user_data.company"></ion-input>
+
+        <ion-label class="form-label">Title:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="title" name="title" [(ngModel)]="user_data.title"></ion-input>
+
+        <ion-label class="form-label">Customer Type:</ion-label>
+        <ion-select value="brown" okText="OK" cancelText="Cancel" ngModel type="industry" class="form-field" name="industry" [(ngModel)]="user_data.industry" [selectedText]="user_data.industry"> 
+          <ion-select-option *ngFor="let industry of industries | keyvalue" value="{{industry.value}}">
+            {{industry.value}}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-label class="form-label">Email:</ion-label>
+        <ion-input class="form-field" type="email" ngModel type="email" name="email" [(ngModel)]="user_data.email"></ion-input>
+
+        <ion-label class="form-label">Telephone:</ion-label>
+        <ion-input class="form-field" type="tel" ngModel type="phone" name="phone" [(ngModel)]="user_data.phone"></ion-input>
+
+        <ion-label class="form-label">Password:</ion-label>
+        <ion-input class="form-field" type="password" ngModel type="password" name="password" [(ngModel)]="user_data.password"></ion-input><br>
+
+        
+        <ion-list>
+          <ion-radio-group>
+            <ion-list-header>
+              <ion-label>Would you like to receive push notifications through text message? </ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Yes</ion-label>
+              <ion-radio slot="start" value="1" (click)="receive_notification(1)" name="receive_notifications" checked="{{this.receive_notifications1}}" ></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>No</ion-label>
+              <ion-radio slot="start"   value="0" (click)="receive_notification(0)" name="receive_notifications"  checked="{{this.receive_notifications2}}"></ion-radio> 
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+        
+        <ion-button type="submit" expand="block" class="modal-btn orange submit-btn" fill="clear">Save</ion-button><br>
+      </form>
+    </div>
+  </div>
+  
+</ion-content>
+

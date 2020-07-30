@@ -1,0 +1,12 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-dining">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <app-image-upload></app-image-upload>
+<div class="white-section">
+  <app-event-gallery [preview]="false" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+  <app-event-footer [host]="event?.event_host"></app-event-footer>
+</div>
+</ion-content>

@@ -1,0 +1,58 @@
+.modal-gallery-holder {
+    width: 100%;
+    border-radius: 3px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+.modal-gallery-img {
+    width: auto;
+}
+.gallery-arrow {
+    width: 20px;
+}
+
+.modal{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.gallery-img{
+    background-size: cover;
+}
+
+.map-pinch-area{
+    height: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+}
+
+.span-arrow-left{
+    position: absolute;
+    padding-top: 130px;
+    padding-bottom: 130px;
+    padding-right: 15px;
+    z-index: 100;
+}
+
+.span-arrow-right{
+    position: absolute;
+    padding-top: 130px;
+    padding-bottom: 130px;
+    padding-left: 15px;
+    padding-right: 10px;
+    z-index: 100;
+    right: 0;
+}
+
+.md{
+    .modal-exit{
+        margin-top: 50px;
+    }
+}

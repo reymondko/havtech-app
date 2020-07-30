@@ -1,0 +1,55 @@
+<span>
+  <div class="havtech-moments" (click)="showModal()">
+      <div class="moment-wrapper">
+        <img src="/assets/icon-camera.svg" class="camera-icon">
+         Show us your Havtech Moments
+      </div>
+      <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+    <!-- MODAL -->
+  <div class="modal" *ngIf="upload_capture_modal" (click)="hideModal()">
+  <ion-fab horizontal="end" vertical="top">
+    <ion-fab-button class="modal-exit" padding>
+      <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+    <div class="modal-message-holder">
+      <h2 class="modal-h2">
+        Show us your Havtech Moments
+      </h2>
+      <p class="modal-p">Having fun at your event? Take a quick <br> picture and share it here. Don't be shy!<br>Take a selfie!</p>
+      <button class="modal-btn orange" (click)="uploadPhotos()">CHOOSE AN EXISTING PHOTO</button>
+      <button class="modal-btn gray" (click)="capturePhoto()">TAKE A NEW PICTURE AND UPLOAD</button>
+    </div>
+  </div>
+  <!-- <div class="modal" *ngIf="confirm_upload_modal" (click)="hideModal()">
+    <ion-fab horizontal="end" vertical="top">
+      <ion-fab-button class="modal-exit" padding>
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <div class="modal-message-holder">
+      <h2 class="modal-h2">
+        Are you sure your want to upload this photo
+      </h2>
+      <p class="modal-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lacinia purus quis condimentum condimentum</p>
+      <button class="modal-btn orange" (click)="savePhotos()">YES, PLEASE PROCEED</button>
+      <button class="modal-btn gray" (click)="hideModal()">CANCEL</button>
+    </div>
+  </div> -->
+  <div class="modal" *ngIf="upload_complete_modal" (click)="hideModal()">
+    <ion-fab horizontal="end" vertical="top">
+      <ion-fab-button class="modal-exit" padding>
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+      <div class="modal-message-holder">
+        <h2 class="modal-h2">
+          We've received your photo.
+        </h2>
+        <p class="modal-p">We will be reviewing your submissions<br>and uploading them soon</p>
+        <button class="modal-btn orange" (click)="hideModal()">CLOSE</button>
+    </div>
+  </div>
+  <!-- END MODAL -->
+</span>

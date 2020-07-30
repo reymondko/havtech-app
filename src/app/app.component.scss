@@ -1,0 +1,53 @@
+.nav-background {
+    background-color: #f5841c;
+    background-image: url("/assets/Havtech_orange.svg");
+    background-position: 0% 100%;
+    background-size: 160%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+.nav-item {
+    background-color: #f5841c;
+    --background-activated: transparent;
+}
+
+.nav-link {
+    color:#fff;
+    --background-activated: transparent;
+    background-color: transparent;
+    font-family: titling-gothic-fb, sans-serif;
+    font-style: normal;
+}
+
+:host .nav-link {
+    background: #f5841c !important;
+    --background-activated: transparent;
+    color: #fff !important;
+}
+.sidebar-main-menu ion-item.activated {
+    background: #f5841c !important;
+    color: #fff !important;
+}
+:host .activated{
+    
+    background-color: transparent;
+}
+.ion-activatable,.ion-focusable{
+    background: #f5841c !important;
+    --background-activated: transparent;
+    --highlight-color-activated : transparent; 
+    --ripple-color: transparent;
+
+}
+
+.sidebar-main-menu ion-item{
+    --background: #f5841c;
+    --inner-padding-end: 0px;
+    --padding-start:15px;
+}
+
+.sidebar-main-menu .list-md{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important; 
+}

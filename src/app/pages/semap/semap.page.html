@@ -1,0 +1,33 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-map">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <span *ngIf="event.maps"> 
+        <div class="map-image-area"  *ngFor="let map of event.maps; index as i" >
+            <div class="gray-bar">
+              MAP: {{map.map_name}} 
+              <button class="download-btn"  (click)="downloadFromUrl(map.filename)">Download <img src="/assets/icon-pdf.svg" width="20" style="margin-left:8px;"></button>
+            </div>
+            <div class="map-image-area">
+                <pinch-zoom id="pinchZoomArea{{i}}" class="map-pinch-area">
+                    <img src="{{map.filename}}" /> 
+                </pinch-zoom>
+                <span class="map-buttons">
+                  <button class="zoom-btn" (click)="zoomIn(i)"><img src="/assets/icon-add22.svg" class="zoom-icon"></button>
+                  <button class="zoom-btn" (click)="zoomOut(i)"><img src="/assets/icon-subtract24.svg" class="zoom-icon"></button>
+                </span>
+            </div>
+            <!-- <div style="width:99%;padding:3px;">
+              <button expand="block" class="view-gallery-btn" (click)="goToMap(map)">Map: {{map.map_name}}</button>
+            </div> -->
+        </div>
+      <br /><br />
+  </span>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

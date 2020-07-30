@@ -1,0 +1,57 @@
+.general-event-tab-holder {
+  width: 100%;
+}
+
+.general-event-tab {
+  width: 100%;
+  display: flex;
+  padding: 15px 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  background: #F68D2E;
+  background: -moz-linear-gradient(top,  #ee7814 0%, #ff8d2a 100%);
+  background: -webkit-linear-gradient(top,  #ee7814 0%,#ff8d2a 100%);
+  background: linear-gradient(to top,  #ee7814 0%,#ff8d2a 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee7814', endColorstr='#ff8d2a',GradientType=0 );
+}
+
+.tab-front {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.tab-title {
+  font-family: titling-gothic-fb, sans-serif;
+  font-style: normal;
+  color:#fff;
+  text-transform: uppercase;
+  font-size: .8em;
+  margin: 0px;
+  padding: 0px;
+  display: inline-block;
+}
+
+.tab-icon {
+  width: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.registered-checkmark {
+    color:#42750c;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: .8em;
+    line-height: 130%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin:15px 0px 30px;
+}
+
+

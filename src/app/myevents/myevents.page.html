@@ -1,0 +1,62 @@
+<app-header></app-header>
+<ion-content class="context-special-events-list">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>      
+<div class="white-bar">
+  <h1 class="page-title gray-title">My Events</h1>
+</div>
+<div class="my-events-holder" *ngIf="my_events">
+  <span *ngFor="let my_event of my_events|keyvalue: helper.preserveListOrder">
+    <div *ngIf="my_event.value.type == 'General Event'">
+      <a class="learning-information-teaser"         
+        (click)="goToEvent(my_event.value.id,1)"
+        [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)), 
+        url('+my_event.value.image+')'}"
+        > 
+        <div class="holder1">
+          <div class="myevent-type-g">{{my_event.value.type}}</div>
+        <h2 class="learning-information-teaser-name">
+         {{my_event.value.event_name}}
+        </h2>
+        <p class="event-date-p">{{my_event.value.event_date_range}}</p>
+        </div>
+        <img slot="end" src="/assets/arrow2.svg" class="arrow">
+      </a>
+    </div>
+    <div *ngIf="my_event.value.type == 'Special Event'">
+      <a class="special-event-teaser" 
+      (click)="goToEvent(my_event.value.id,2)"
+      [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(238, 120, 20,0.9), rgb(255, 141, 42,0.85)), 
+      url('+my_event.value.image+')'}"
+    > 
+      <div class="holder1">
+        <div class="myevent-type"><img src="/assets/white-star.svg" class="special-star2">{{my_event.value.type}}</div>
+      <h2 class="special-event-teaser-name">
+        {{my_event.value.event_name}}
+      </h2>
+      <p class="event-date-p">{{my_event.value.event_date_range}}</p>
+      </div>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+    </div>
+    <div *ngIf="my_event.value.type == 'Learning Institute'">
+      <a class="learning2-event-teaser"  
+        
+        (click)="goToEvent(my_event.value.id,3)"
+        [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)), 
+        url('+my_event.value.image+')'}"
+        > 
+        <div class="holder1">
+          <div class="myevent-type-l">{{my_event.value.type}}</div>
+        <h2 class="learning-information-teaser-name">
+          {{my_event.value.event_name}}
+        </h2>
+        <p class="event-date-p">{{my_event.value.event_date_range}}</p>
+        </div>
+        <img slot="end" src="/assets/arrow2.svg" class="arrow">
+      </a>
+    </div>
+  </span>
+</div>
+</ion-content>

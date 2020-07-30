@@ -1,0 +1,68 @@
+<app-header [eventType]="event.event_types"></app-header>
+  <ion-content fullscreen class="context-special-event-accomodations">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="event-landing-hero" *ngIf="event.event_types==2" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="gray-bar">
+    Accommodations
+  </div>
+  <span *ngIf="event.accomodations">
+      <div class="white-section" *ngFor="let accomodation of event.accomodations">
+          <br>
+          <div class="spaced-p-holder" *ngIf="accomodation.hotel">
+            <p class="a1">Hotel:</p>
+            <p class="a2">{{accomodation.hotel}}</p>
+          </div> 
+          <div class="spaced-p-holder" *ngIf="accomodation.name">
+            <p class="a1">Name:</p>
+            <p class="a2">{{accomodation.name}}</p>
+          </div> 
+          <div class="spaced-p-holder" *ngIf="accomodation.confirmation_number">
+            <p class="a1">Confirmation:</p>
+            <p class="a2">{{accomodation.confirmation_number}}</p>
+          </div> 
+          <div class="spaced-p-holder" *ngIf="accomodation.room_number">
+            <p class="a1">Room:</p>
+            <p class="a2">{{accomodation.room_number}}</p>
+          </div> 
+          <p class="detail-p" [innerHTML]="accomodation.description | safeHtml">
+          </p> 
+          <p class="detail-p">
+            <span class="clickable-address" (click)="helper.openMapUrlFromAddress(accomodation.address1,accomodation.address2,accomodation.city,accomodation.state,accomodation.zip,accomodation.country)">
+              <span style="color:#535353;font-weight:500;">{{accomodation.hotel}}</span><br>
+              <span *ngIf="accomodation.address1">{{accomodation.address1}} </span> 
+              <span *ngIf="accomodation.address2">{{accomodation.address2}}</span>
+              <br *ngIf="!accomodation.address2">
+              <span *ngIf="accomodation.city">{{accomodation.city}}, </span> 
+              <span *ngIf="accomodation.state">{{accomodation.state}}, </span>
+              <span *ngIf="accomodation.zip">{{accomodation.zip}}, </span> 
+              <span *ngIf="accomodation.country">{{accomodation.country}}<br></span>
+              <br *ngIf="!accomodation.country">
+            </span>
+            <a *ngIf="accomodation?.phone" href="tel:{{accomodation.phone}}">+{{accomodation.phone}}</a>
+          </p>
+          <div class="detail-btn-holder">
+              <button *ngIf="accomodation.directions_url" (click)="goToUrl(accomodation.directions_url)" class="detail-btn directions-btn link-btn" >Directions</button>
+              <button *ngIf="accomodation.website_url" (click)="goToUrl(accomodation.website_url)" class="detail-btn website-btn link-btn">Website</button>
+          </div>
+        </div>
+  </span>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="event.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer> 
+ </div>
+</ion-content>

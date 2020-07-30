@@ -1,0 +1,28 @@
+<ion-content class="context-login-screen" >
+  <div class="login-screen"  >
+    <div class="login-logo">
+      <!--<img src="/assets/Havtech_eventshub_logo-white.svg">!-->
+      <img src="/assets/Havtech_logo_final.png">
+    </div>
+    <div class="login-field-holder" style="z-index: 1000;">
+    <form class="login-form" #form="ngForm" (ngSubmit)="login(form)" method="post">
+      <ion-label class="login-label">Email:</ion-label>
+      <ion-list class="login-shadow">
+        <ion-item>
+          <ion-input class="login-field" ngModel type="email" name="email"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-label class="login-label">Password:</ion-label>
+      <ion-list class="login-shadow">
+        <show-hide-password size="sm">
+          <input type="password" name="password"  class="login-field"  ngModel autocomplete="new-password" style="width: 85%;">
+        </show-hide-password>
+      </ion-list>
+          <ion-button  type="submit" expand="block" class="login-btn" fill="clear">Sign In</ion-button>
+    </form>
+    <p routerLink="/forgot-password" routerDirection="forward" class="small-p">Trouble Signing in?</p>
+    </div>
+      <p  class="small-p"><a class="" href="#" style="z-index: 500;color: #9E9E9E;
+        text-decoration: none;">Terms of Use &amp; Policy &mdash;</a></p>
+  </div>
+</ion-content>

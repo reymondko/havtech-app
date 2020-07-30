@@ -1,0 +1,48 @@
+<app-header></app-header>
+<ion-content class="context-notifications-page">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+<div class="orange-bar">
+  <h1 class="page-title">Notifications {{'('+notifications_service.notifications.unread.length+')'}}</h1>
+</div>
+<div class="white-section">
+   <div class="notif-guide">
+     <div class="read-wrapper">
+       <div class="read-circle"></div>Read
+     </div>
+     <div class="read-wrapper">
+       <div class="unread-circle"></div>Unread
+     </div>
+   </div>
+</div>
+<div class="light-gray-section" *ngIf="notifications_service.notifications">
+  <div 
+    class="notification-wrapper ion-activatable" 
+    *ngFor="let notification of notifications_service.notifications.unread" 
+    (click)="markNotification(notification.id)">
+    <ion-ripple-effect></ion-ripple-effect>
+    <div class="notification-front">
+      <p class="notification-title">
+        {{notification.notification.title}}
+      </p>
+      <p class="notification-p" [innerHTML]="notification.notification.description | safeHtml">
+      </p><br>
+      <button *ngIf="notification.notification.button_link == '1'" (click)="goToUrl(notification.notification.button_url)" class="detail-btn directions-btn link-btn">More Info</button>
+    </div>
+    <div slot="end" class="unread-circle tap"></div>
+  </div>
+  <div class="notification-wrapper" *ngFor="let notification of notifications_service.notifications.read">
+    <div class="notification-front">
+      <p class="notification-title">
+        {{notification.notification.title}}
+      </p>
+      <p class="notification-p" [innerHTML]="notification.notification.description | safeHtml">
+      </p><br>
+      <button *ngIf="notification.notification.button_link == '1'" (click)="goToUrl(notification.notification.button_url)" class="detail-btn directions-btn link-btn">More Info</button>
+    </div>
+    <div slot="end" class="read-circle tap"></div>
+  </div>
+</div>
+</ion-content>
+

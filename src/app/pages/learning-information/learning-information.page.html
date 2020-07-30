@@ -1,0 +1,55 @@
+<app-header></app-header>
+<ion-content fullscreen class="context-special-event-landing">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="learning-event-landing-hero" 
+  [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)), 
+      url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+    <p class="special-event-date">{{event.event_date_range}}</p>
+    <button class="download-btn event-overview-dl" *ngIf="event?.overview_file" (click)="downloadFromUrl(event.overview_file)">Download <img src="/assets/icon-pdf.svg" width="20" style="margin-left:8px;"></button>
+  </div>
+
+ 
+  <app-event-menus [event]="event"></app-event-menus>
+  <div class="white-section">
+    <p class="detail-p" [innerHTML]="event.description  | safeHtml"></p>
+    <div class="detail-btn-holder">
+      <button *ngIf="event.directions_url" (click)="goToUrl(event.directions_url)" class="detail-btn directions-btn link-btn" >Directions</button>
+      <button *ngIf="event.website_url" (click)="goToUrl(event.website_url)" class="detail-btn website-btn link-btn">Website</button>
+    </div>
+  </div>
+  <div class="white-section" *ngIf="eventsService.current_selected_event_data?.current_schedule && eventsService.current_selected_event_data?.display_current_schedule">
+      <p class="gray-upper-p">
+      Right Now:
+      </p>
+      <div class="hn-holder"  (click)="goToRightNowSchedule(eventsService.current_selected_event_data?.current_schedule?.id)">
+        <div class="hn-wrapper">
+          <div class="hn-img"  [ngStyle]="{'background-image':'url('+eventsService.current_selected_event_data?.current_schedule?.thumb_image+')'}">
+          </div>
+          <div class="hn-content">
+            <p class="hn-title">{{eventsService.current_selected_event_data?.current_schedule?.title}}</p>
+            <p class="hn-time">{{formatDate(eventsService.current_selected_event_data?.current_schedule?.start_date)|date:'shortTime'}} - {{formatDate(eventsService.current_selected_event_data?.current_schedule?.end_date)|date:'shortTime'}}</p>
+            <p class="hn-location">{{eventsService.current_selected_event_data?.current_schedule?.location_address}} {{eventsService.current_selected_event_data?.current_schedule?.location_address2}}</p>
+            <p class="hn-p" [innerHTML]="eventsService.current_selected_event_data?.current_schedule?.description  | safeHtml"></p>
+          </div>
+      </div>
+      <img slot="end" src="/assets/arrow-orange.png" class="arrow">
+    </div>
+  </div>
+  <div class="white-section">
+    <button *ngIf="event.register_button" (click)="goToUrl(event.register_button)" class="register-btn website-btn link-btn">Register</button>
+    <button *ngIf="!eventsService.current_selected_event_data?.is_registered && !event.register_button" class="register-btn" routerLink="/event-registration" routerDirection="forward">Register</button>
+    <div *ngIf="eventsService.current_selected_event_data?.is_registered" class="registered-checkmark">
+      <img src="/assets/icon-checkmark2.svg" style="width:20px;margin-right:10px;">
+      You are registered for this event
+    </div>
+  </div>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

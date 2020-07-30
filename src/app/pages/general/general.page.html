@@ -1,0 +1,27 @@
+<app-header></app-header>
+<ion-content class="context-general-events">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>      
+<div class="blue-bar">
+  <h1 class="page-title">General Events</h1>
+</div>
+<div class="general-events-holder" *ngIf="general_events">
+  <span *ngFor="let general_event of general_events|keyvalue: helper.preserveListOrder">
+    <a class="general-event-teaser" 
+      (click)="goToEvent(general_event.value.id)" 
+      [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)), 
+      url('+general_event.value.image+')'}"
+    >
+      <div class="holder1">
+      <h2 class="general-event-teaser-name">
+       {{general_event.value.event_name}}
+      </h2>
+      <p class="event-date-p">{{general_event.value.event_date_range}}</p>
+      </div>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+  </span>
+</div>  
+</ion-content>
+

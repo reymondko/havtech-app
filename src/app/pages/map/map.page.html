@@ -1,0 +1,21 @@
+<app-header></app-header>
+<ion-content fullscreen class="context-special-event-map">
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="gray-bar">
+    MAP: {{selected_map.map_name}}
+  </div>
+  <span *ngIf="selected_map"> 
+    <div class="map-image-area">
+        <pinch-zoom id="pinchZoomArea" class="map-pinch-area">
+            <img src="{{selected_map.filename}}" /> 
+        </pinch-zoom>
+        <span class="map-buttons">
+          <button class="zoom-btn" (click)="zoomIn()"><img src="/assets/icon-add22.svg" class="zoom-icon"></button>
+          <button class="zoom-btn" (click)="zoomOut()"><img src="/assets/icon-subtract24.svg" class="zoom-icon"></button>
+        </span>
+    </div>
+  </span>
+  <div class="white-section">
+      <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

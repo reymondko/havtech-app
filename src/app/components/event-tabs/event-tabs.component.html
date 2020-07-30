@@ -1,0 +1,20 @@
+<div class="special-event-top-tabs">
+  <button *ngIf="event.schedule_image == '1'" class="top-tab" routerLink="/seschedule" routerDirection="root" [ngClass]="{' current-tab': router.url=='/seschedule', ' current-tab2': router.url=='/sescheduledetail'}" >
+    <img src="/assets/icon-clock.svg" class="top-tab-icon">
+  </button>
+  <button *ngIf="event.accomodations_image == '1'" class="top-tab" routerLink="/seaccomodations" routerDirection="root" [ngClass]="{' current-tab': router.url=='/seaccomodations'}">
+    <img src="/assets/icon-theater-curtains.svg" class="top-tab-icon">
+  </button>
+  <button *ngIf="event.dining_image == '1'" class="top-tab" routerLink="/sedining" routerDirection="root" [ngClass]="{' current-tab': router.url=='/sedining'}">
+    <img src="/assets/icon-food-course.svg" class="top-tab-icon">
+  </button>
+  <button *ngIf="event.transportation_image == '1'" class="top-tab" routerLink="/setransportation" routerDirection="root" [ngClass]="{' current-tab': router.url=='/setransportation'}">
+    <img src="/assets/icon-taxi.svg" class="top-tab-icon">
+  </button>
+  <button *ngIf="event.map == '1'" class="top-tab" routerLink="/semap" routerDirection="root" [ngClass]="{' current-tab': router.url=='/semap'}">
+    <img src="/assets/icon-map-pin.svg" class="top-tab-icon">
+  </button>
+  <button *ngIf="event.travelhost == '1'" class="top-tab" routerLink="/setravel-host" routerDirection="root" [ngClass]="{' current-tab': router.url=='/setravel-host'}">
+    <img src="/assets/icon-concierge2.svg" class="top-tab-icon">
+  </button>
+</div>

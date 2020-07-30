@@ -1,0 +1,44 @@
+<div class="general-event-tab-holder">
+  <div *ngIf="event.schedule_image == '1'" class="general-event-tab" routerLink="/seschedule" routerDirection="forward">
+    <div class="tab-front" routerLink="/seschedule" routerDirection="forward">
+      <img src="/assets/icon-clock.svg" class="tab-icon">
+      <p class="tab-title">Schedule</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+  <div *ngIf="event.accomodations_image == '1'" class="general-event-tab" routerLink="/seaccomodations" routerDirection="forward">
+    <div class="tab-front">
+      <img src="/assets/icon-theater-curtains.svg" class="tab-icon">
+      <p class="tab-title">Accommodations</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+  <div *ngIf="event.dining_image == '1'" class="general-event-tab" routerLink="/sedining" routerDirection="forward">
+    <div class="tab-front">
+      <img src="/assets/icon-food-course.svg" class="tab-icon">
+      <p class="tab-title">Dining</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+  <div *ngIf="event.transportation_image == '1'" class="general-event-tab" routerLink="/setransportation" routerDirection="forward">
+    <div class="tab-front">
+      <img src="/assets/icon-taxi.svg" class="tab-icon">
+      <p class="tab-title">Transportation</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+  <div *ngIf="event.map == '1'" class="general-event-tab" routerLink="/semap" routerDirection="forward">
+    <div class="tab-front">
+      <img src="/assets/icon-map-pin.svg" class="tab-icon">
+      <p class="tab-title">Maps</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+  <div *ngIf="event.travelhost == '1'" class="general-event-tab" routerLink="/setravel-host" routerDirection="forward">
+    <div class="tab-front">
+      <img src="/assets/icon-concierge2.svg" class="tab-icon">
+      <p class="tab-title">Travel Host &amp; Information</p>
+    </div>
+    <img slot="end" src="/assets/arrow-white.png" class="arrow">
+  </div>
+</div>

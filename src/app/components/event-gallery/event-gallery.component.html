@@ -1,0 +1,30 @@
+<span>
+  <div class="gallery-holder" *ngIf="photos_to_show">
+    <div class="gallery-img-holder" *ngFor="let photo of photos_to_show;index as i;" (click)="showPhoto(i)">
+      <div class="gallery-img" [ngStyle]="{'background-image':'url('+photo.resized_name+')'}"></div>
+    </div>
+  </div>
+  <div style="width:99%;padding:3px;" *ngIf="preview">
+    <span *ngIf="photos_to_show?.length">
+        <button expand="block" class="view-gallery-btn" routerLink="/gallery" routerDirection="forward" *ngIf="photos_to_show?.length > 8">View All {{photos_to_show?.length + 1}}</button>
+    </span>
+  </div>
+  <div class="modal" *ngIf="modal_is_active">
+    <ion-fab horizontal="end" vertical="top">
+      <ion-fab-button class="modal-exit ion-padding" (click)="closePhoto()">
+        <ion-icon name="close"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <div class="modal-gallery-holder">
+      <span *ngIf="photos_to_show?.length > 1" class="span-arrow-left" (click)="previousPhoto()">
+        <img class="gallery-arrow" src="/assets/icon-nav-left.svg" >
+      </span>
+      <pinch-zoom class="map-pinch-area">
+        <img class="modal-gallery-img" [src]="photos_to_show[selected_photo_index].filename" (load)="hasLoaded()">
+      </pinch-zoom>
+      <span class="span-arrow-right" *ngIf="photos_to_show?.length > 1"  (click)="nextPhoto()">
+        <img class="gallery-arrow" src="/assets/icon-nav-right.svg" >
+      </span>
+    </div>
+  </div>
+</span>

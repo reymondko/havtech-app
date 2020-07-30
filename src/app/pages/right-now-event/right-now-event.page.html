@@ -1,0 +1,49 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-scheduledetail">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && event.schedules[0]?.image" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.95), rgba(255, 143, 46, 0.6)),url('+event.schedules[0]?.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && !event.schedules[0]?.image" [ngStyle]="{'background-image':'linear-gradient(45deg, #ED780E, #FF902C),url('+event.schedules[0]?.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.schedules[0]?.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.schedules[0]?.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="gray-bar">
+    Right Now
+  </div>
+  <div class="white-section">
+    <button routerLink="/seschedule" routerDirection="back" class="plain-back-btn"><img src="/assets/blue-arrow-back2.svg" style="display:inline-block;width:9px;margin-right:8px;">BACK</button>
+    <p class="event-title-p large">
+        {{schedule.title}}
+    </p>
+    <div class="hn-img" *ngIf="schedule.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.thumb_image+')'}">
+    </div><br>
+    <p class="event-sub-p">
+      <span *ngIf="schedule.presenter_name">Presenter Name: {{schedule.presenter_name}}</span><br>
+      <span *ngIf="schedule.presenter_company"> Presenter Company: {{schedule.presenter_company}}</span><br>
+    </p>
+    <p class="event-sub-p">
+      {{formatDate(schedule.start_date)|date:'shortTime'}} - {{formatDate(schedule.end_date)|date:'shortTime'}} <br>
+      {{schedule.room_number}}<br>
+    </p>
+    <p class="detail-p" [innerHTML]="schedule.description  | safeHtml">
+    </p>
+  </div>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer> 
+ </div>
+</ion-content>

@@ -1,0 +1,62 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-scheduledetail">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+  <app-event-tabs [event]=event></app-event-tabs>  
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && event.schedules[0]?.image" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && !event.schedules[0]?.image" [ngStyle]="{'background-image':'linear-gradient(45deg, #ED780E, #FF902C),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="gray-bar flexy-bar schedule-bar">
+    Schedule
+    <button class="download-btn" *ngIf="schedule.itinerary_filename" (click)="downloadFromUrl(schedule.itinerary_filename)">Download <img src="/assets/icon-pdf.svg" width="20" style="margin-left:8px;"></button>
+  </div>
+  <div class="white-section">
+    <button routerLink="/seschedule" routerDirection="back" class="plain-back-btn"><img src="/assets/blue-arrow-back2.svg" style="display:inline-block;width:9px;margin-right:8px;">BACK</button>
+    <p class="event-title-p large">
+        {{schedule.title}}
+    </p>
+    <div class="hn-img" *ngIf="schedule.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.thumb_image+')'}">
+    </div><br>
+    <p class="event-sub-p">{{formatDate(schedule.start_date)|date:'shortTime'}} - {{formatDate(schedule.end_date)|date:'shortTime'}}<br>
+      <span *ngIf="schedule.room_number">{{schedule.room_number}}<br></span>
+      <span *ngIf="schedule.presenter_name">{{schedule.presenter_name}}<br></span>
+      <span *ngIf="schedule.presenter_company">Presenter Company: {{schedule.presenter_company}}<br></span>
+    <p class="detail-p" [innerHTML]="schedule.description | safeHtml">
+    </p>
+    <p class="detail-p">
+      <span class="clickable-address" (click)="helper.openMapUrlFromAddress(schedule.location_address,schedule.location_address2,schedule.city,schedule.state,schedule.zip,schedule.country)">
+            <span style="font-weight:500;display: block" *ngIf="schedule.location_address">{{schedule.location_address}} </span>
+            <span style="display: block" *ngIf="schedule.location_address2">{{schedule.location_address2}}</span>
+            <span *ngIf="schedule.city">{{schedule.city}}, </span> 
+            <span *ngIf="schedule.state">{{schedule.state}}, </span>
+            <span *ngIf="schedule.zip">{{schedule.zip}}, </span> 
+            <span *ngIf="schedule.country">{{schedule.country_name}}<br></span>
+            <br *ngIf="!schedule.country">
+      </span>
+      <a *ngIf="schedule.phone"href="tel:{{schedule.phone}}">+{{schedule.phone}}</a>
+    </p>
+    <div class="detail-btn-holder">
+      <button *ngIf="schedule.directions_url" (click)="goToUrl(schedule.directions_url)" class="detail-btn directions-btn link-btn" >Directions</button>
+      <button *ngIf="schedule.website_url" (click)="goToUrl(schedule.website_url)" class="detail-btn website-btn link-btn">Website</button>
+    </div>
+  </div>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

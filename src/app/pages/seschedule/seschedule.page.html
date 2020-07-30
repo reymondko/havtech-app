@@ -1,0 +1,179 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-schedule">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs> 
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && event.image" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.95), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==2 && !event.image" [ngStyle]="{'background-image':'linear-gradient(45deg, #ED780E, #FF902C),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1 " [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3 " [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="gray-bar flexy-bar schedule-bar">
+    Schedule
+    <button class="download-btn" (click)="showCreateCustomSchedule()" *ngIf="!event.has_custom_schedule && !show_create_custom_schedule">Personalize my schedule</button>
+    <!--<button class="download-btn" (click)="showCreateCustomSchedule()" *ngIf="event.has_custom_schedule">Remove From Itinerary &nbsp; <img slot="end" src="/assets/swipe-left.png" class="remove-it-icn"></button>!-->
+    <div class="download-btn" *ngIf="event.has_custom_schedule">Remove From Itinerary &nbsp; <img slot="end" src="/assets/swipe-left.png" class="remove-it-icn"></div>
+  </div>
+  <!-- RIGHT NOW SECTION -->
+  <div class="white-section" *ngIf="eventsService.current_selected_event_data?.current_schedule && eventsService.current_selected_event_data?.display_current_schedule">
+    <p class="gray-upper-p">
+      Right Now:
+    </p>
+    <div class="hn-holder"  (click)="goToRightNowSchedule(eventsService.current_selected_event_data?.current_schedule?.id)">
+      <div class="hn-wrapper">
+        <div class="hn-img"  [ngStyle]="{'background-image':'url('+eventsService.current_selected_event_data?.current_schedule?.thumb_image+')'}">
+        </div>
+        <div class="hn-content">
+          <p class="hn-title">{{eventsService.current_selected_event_data?.current_schedule?.title}}</p>
+          <p class="hn-time">{{formatDate(eventsService.current_selected_event_data?.current_schedule?.start_date)|date:'shortTime'}} - {{formatDate(eventsService.current_selected_event_data?.current_schedule?.end_date)|date:'shortTime'}}</p>
+          <p class="hn-location">{{eventsService.current_selected_event_data?.current_schedule?.location_address}} {{eventsService.current_selected_event_data?.current_schedule?.location_address2}}</p>
+          <!--<p class="hn-p" [innerHTML]="eventsService.current_selected_event_data?.current_schedule?.description"></p>!-->
+        </div>
+      </div>
+      <img slot="end" src="/assets/arrow-orange.png" class="arrow">
+    </div>
+  </div>
+
+  <!-- DEFAULT SCHEDULE VIEW -->
+  <span *ngIf="event.grouped_schedules 
+        && event.has_custom_schedule == false 
+        && show_create_custom_schedule == false">
+    <div class="schedule-date-section" *ngFor="let grouped_schedule of event.grouped_schedules|keyvalue">
+      <div class="gray-bar">
+        {{formatDateKey(grouped_schedule.key)|date:'EEEE, MMMM d, y'}}
+      </div>
+      <div class="schedule-event gray-bg" *ngFor="let schedule of grouped_schedule.value|keyvalue" (click)="goToSchedule(schedule.value.id)" >
+        <div class="hn-img" *ngIf="schedule.value.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.value.thumb_image+')'}">
+        </div>
+        <div class="hn-content">
+          <p class="hn-title">{{schedule.value.title}}</p>
+          <p class="hn-time" *ngIf="schedule.value.start_date">{{formatDate(schedule.value.start_date) | date:'shortTime'}} - {{formatDate(schedule.value.end_date) | date:'shortTime'}}</p>
+          <p class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}</p>
+        </div>
+        <img slot="end" src="/assets/arrow-orange.png" class="arrow">
+      </div>
+    </div>
+  </span>
+
+  <!-- CUSTOM SCHEDULE VIEW -->
+  <span *ngIf="event.grouped_custom_schedules 
+        && event.has_custom_schedule == true 
+        && show_create_custom_schedule == false">
+    <div>
+      <div class="hn-content gray-bg" *ngIf="show_saved_text">
+          <div class="event-saved-div">
+            <img src="/assets/icon-checkmark2.svg">
+            <span>{{saved_text}}</span>
+          </div>
+      </div>
+    </div>
+    <div class="schedule-date-section" *ngFor="let grouped_schedule of event.grouped_custom_schedules|keyvalue">
+      <div class="gray-bar">
+        {{formatDateKey(grouped_schedule.key)|date:'EEEE, MMMM d, y'}}
+      </div>
+      <ion-list lines="none">
+        <ion-item-sliding class="sliding-list" *ngFor="let schedule of grouped_schedule.value|keyvalue; let i = index;" >
+          <ion-item lines="none" (click)="goToSchedule(schedule.value.id)" [ngClass]="(i % 2 == 0) ? 'odd' : 'even'">
+              <div class="hn-img" *ngIf="schedule.value.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.value.thumb_image+')'}">
+                </div>
+                <div class="hn-content">
+                  <p class="hn-title">{{schedule.value.title}}</p>
+                  <p class="hn-time" *ngIf="schedule.value.start_date">{{formatDate(schedule.value.start_date) | date:'shortTime'}} - {{formatDate(schedule.value.end_date) | date:'shortTime'}}</p>
+                  <p class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}</p>
+                </div>
+                <img slot="end" src="/assets/arrow-orange.png" class="arrow">
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option color="secondary" (click)="deleteCustomEventSchedule(schedule.value.id,grouped_schedule.key,schedule.key)">
+              <p class="remove-text">REMOVE<br><ion-icon class="remove-icon" name="close"></ion-icon></p>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </span>
+
+  <!-- CREATE CUSTOM SCHEDULE VIEW -->
+  <span *ngIf="show_create_custom_schedule">
+    <div>
+      <div class="hn-content gray-bg ">
+        <p class="hn-title add-schedule-heading">To personalize your schedule, select which upcoming events interest you:</p>
+      </div>
+    </div>
+    <span *ngIf="event.grouped_unselected_schedules">
+      <div class="schedule-date-section" *ngFor="let grouped_schedule of event.grouped_unselected_schedules|keyvalue">
+        <div class="gray-bar">
+          {{formatDateKey(grouped_schedule.key)|date:'EEEE, MMMM d, y'}}
+        </div>
+        <div class="schedule-event gray-bg ion-activatable" *ngFor="let schedule of grouped_schedule.value|keyvalue" (click)="selectCustomSchedule(grouped_schedule.key,schedule.key)" >
+          <div class="hn-img" *ngIf="schedule.value.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.value.thumb_image+')'}">
+          </div>
+          <div class="hn-content">
+            <p class="hn-title">{{schedule.value.title}}</p>
+            <p class="hn-time" *ngIf="schedule.value.start_date">{{formatDate(schedule.value.start_date) | date:'shortTime'}} - {{formatDate(schedule.value.end_date) | date:'shortTime'}}</p>
+            <p class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}</p>
+          </div>
+          <span *ngIf="schedule.value?.selected" class="yellow-circle"></span>
+          <span *ngIf="!schedule.value?.selected" class="outline-circle"></span>
+        </div>
+      </div>
+    </span>
+    <div class="white-section">
+      <button class="register-btn" (click)="submitCustomSchedule()">Save Schedule</button>
+    </div>
+  </span>
+
+  <!-- ADDITIONAL SCHEDULE -->
+  
+  <span *ngIf="event.grouped_unselected_schedules  
+        && show_create_custom_schedule == false 
+        && event.has_custom_schedule == true">
+    <div class="additional-sched-blue-bar">
+      Add Additional Events Below:
+    </div>
+      <div class="schedule-date-section" *ngFor="let grouped_schedule of event?.grouped_unselected_schedules|keyvalue; let i = index">
+        <div class="gray-bar">
+          {{formatDateKey(grouped_schedule.key)|date:'EEEE, MMMM d, y'}} 
+          <div class="question-expand" (click)="toggleSched(i)" style="float: right; margin-top: -9px;">
+            <img src="/assets/gray-icon-add22.svg" class="q-expand-icon" *ngIf="!event.schedules[i].is_active" >
+            <img src="/assets/gray-icon-subtract24.svg" class="q-expand-icon" *ngIf="event.schedules[i].is_active">
+          </div>
+        </div>
+        <div class="answer" *ngIf="event.schedules[i].is_active">
+          <div class="schedule-event gray-bg ion-activatable" *ngFor="let schedule of grouped_schedule.value|keyvalue" (click)="selectCustomSchedule(grouped_schedule.key,schedule.key)" >
+            <div class="hn-img" *ngIf="schedule.value.thumb_image"  [ngStyle]="{'background-image':'url('+schedule.value.thumb_image+')'}">
+            </div>
+            <div class="hn-content">
+              <p class="hn-title">{{schedule.value.title}}</p>
+              <p class="hn-time" *ngIf="schedule.value.start_date">{{formatDate(schedule.value.start_date) | date:'shortTime'}} - {{formatDate(schedule.value.end_date) | date:'shortTime'}}</p>
+              <p class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}</p>
+            </div>
+            <span *ngIf="schedule.value?.selected" class="yellow-circle"></span>
+            <span *ngIf="!schedule.value?.selected" class="outline-circle"></span>
+          </div>
+        </div>
+       
+      </div>
+    <div class="white-section">
+      <button class="register-btn" (click)="submitCustomSchedule()"><ion-icon class="add-schedule-icon" name="add"></ion-icon> Add Additional Events</button>
+    </div>
+  </span>
+
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+  </div>
+</ion-content>

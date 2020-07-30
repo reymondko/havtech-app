@@ -1,0 +1,65 @@
+<app-header></app-header>
+<ion-content class="context-upcoming-events-list">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+<div class="orange-bar">
+  <h1 class="page-title">Upcoming Events</h1>
+</div>
+<div class="upcoming-events-holder" *ngIf="events">
+  <span *ngFor="let event of events|keyvalue">
+  <a [ngClass]="(event.value.type=='Special Events')?'upcoming-special-event-teaser':'upcoming-event-teaser'" 
+    (click)="goToEvent(event.value.id)"
+    [ngStyle]="(event.value.type=='Special Events')? {'background-image':'linear-gradient(45deg, rgba(229, 114, 0, 0.9), rgba(241, 180, 52, 0.82)), 
+    url('+event.value.image+')'} : {'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)), 
+    url('+event.value.image+')'}"
+  >
+    <div class="holder1">
+    <h2 class="special-event-teaser-name">
+      <img src="/assets/white-star.svg" class="special-star"  *ngIf="event.value.type == 'Special Events'">
+      {{event.value.event_name}}
+    </h2>
+    <p class="event-date-p"> {{event.value.event_date_range}}</p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+ </span>
+  <!-- <a class="upcoming-event-teaser" routerLink="/general-event" routerDirection="forward">
+    <div class="holder1">
+    <h2 class="upcoming-event-teaser-name">
+      HVAC Lunch and Learn
+    </h2>
+    <p class="event-date-p">Dec 1, 2019 | 1:00pm - 3:00pm</p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="upcoming-event-teaser" routerLink="/general-event" routerDirection="forward">
+    <div class="holder2">
+    <h2 class="upcoming-event-teaser-name">
+      HVAC Lunch and Learn
+    </h2>
+    <p class="event-date-p">Dec 1, 2019 | 1:00pm - 3:00pm</p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="upcoming-event-teaser" routerLink="/general-event" routerDirection="forward">
+    <div class="holder3">
+    <h2 class="upcoming-event-teaser-name">
+      HVAC Lunch and Learn
+    </h2>
+    <p class="event-date-p">Dec 1, 2019 | 1:00pm - 3:00pm</p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="upcoming-event-teaser" routerLink="/general-event" routerDirection="forward">
+    <div class="holder4">
+    <h2 class="upcoming-event-teaser-name">
+      HVAC Lunch and Learn
+    </h2>
+    <p class="event-date-p">Dec 1, 2019 | 1:00pm - 3:00pm</p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a> -->
+</div>  
+</ion-content>
+

@@ -1,0 +1,127 @@
+.schedule-event {
+    padding: 25px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.schedule-event.gray-bg {
+    background-color:#f8f8f8;
+}
+
+p{
+    color: #919191;
+    font-weight: 300;
+}
+
+.hn-content{
+    min-width: 255px;
+}
+
+.add-schedule-heading{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.additional-sched-blue-bar{
+    text-align: center;
+    background-color: #02458c;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
+/*slider list*/
+.list-md{
+    padding-top: 0px; 
+    padding-bottom: 0px;
+}
+
+.remove-text{
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.remove-icon{
+    font-size: 25px;
+}
+.sliding-list{
+    ion-item {
+        --padding-top: 10px;
+        --padding-bottom: 10px;
+    }
+    .hn-title{
+        font-family: titling-gothic-fb, sans-serif;
+        color: #535353 !important;
+        margin: 0px 0px 8px;
+        font-size: 0.95em;
+        line-height: 130%;
+        font-weight: 500 !important;
+    }
+    .odd{
+        --ion-background-color:#f8f8f8;;
+    }
+}
+
+.add-schedule-icon{
+    font-size: 18px;
+    vertical-align: sub;
+    font-weight: 500;
+}
+
+.event-saved-div{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    img{
+        width: 35px;
+        margin-right: 10px;
+        display: inline-block;
+    }
+    span{
+        display: inline-block;
+        font-size: 20px;
+        vertical-align: super;
+        color: #42750c;
+    }
+}
+.question-expand {
+    width: 35px;
+    height: 35px;
+    color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.363);
+    border-radius: 50%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+.q-expand-icon {
+    width: 30%;
+}
+
+.link-btn{
+    text-decoration: none;
+}
+.schedule-date-section{
+    .gray-bar{
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+.schedule-bar{
+    min-height: 60px;
+    background-color: #454545;
+}
+
+.remove-it-icn{
+    width: 25px;
+    display: inline-block;
+}

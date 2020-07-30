@@ -1,0 +1,26 @@
+<app-header></app-header>
+<ion-content class="context-special-events-list">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>      
+<div class="gray-bar">
+  <h1 class="page-title">Learning Institute</h1>
+</div>
+<div class="learning-informations-holder" *ngIf="learning_informations">
+  <span *ngFor="let learning_information of learning_informations|keyvalue: helper.preserveListOrder">
+    <a class="learning-information-teaser" 
+      (click)="goToEvent(learning_information.value.id)"
+      [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)), 
+      url('+learning_information.value.image+')'}"
+    > 
+      <div class="holder1">
+      <h2 class="learning-information-teaser-name">
+          {{learning_information.value.event_name}}
+      </h2>
+      <p class="event-date-p">{{learning_information.value.event_date_range}}</p>
+      </div>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+  </span>
+</div>
+</ion-content>

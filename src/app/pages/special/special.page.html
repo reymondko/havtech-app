@@ -1,0 +1,82 @@
+<app-header></app-header>
+<ion-content class="context-special-events-list">
+<ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>      
+<div class="orange-bar">
+  <h1 class="page-title">Special Events</h1>
+</div>
+<div class="special-events-holder" *ngIf="special_events">
+  <span *ngFor="let special_event of special_events|keyvalue: helper.preserveListOrder">
+
+    <!-- IF USER HAS BACKGROUND IMAGE -->
+    <a class="special-event-teaser" 
+      (click)="goToEvent(special_event.value.id)"
+      [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)), 
+      url('+special_event.value.image+')'}"
+      *ngIf="special_event.value.image"
+    > 
+    <div class="holder1">
+      <h2 class="special-event-teaser-name">
+          {{special_event.value.event_name}}
+      </h2>
+      <p class="event-date-p">{{special_event.value.event_date_range}}</p>
+      </div>
+      <img slot="end" src="/assets/arrow2.svg" class="arrow">
+    </a>
+    <!-- IF USER DOES NOT HAVE BACKGROUND IMAGE -->
+    <a class="special-event-teaser" 
+      (click)="goToEvent(special_event.value.id)"
+      [ngStyle]="{'background-image':'linear-gradient(45deg, #ED780E, #FF902C), 
+      url('+special_event.value.image+')'}"
+      *ngIf="!special_event.value.image"
+    >
+    <div class="holder1">
+        <h2 class="special-event-teaser-name">
+            {{special_event.value.event_name}}
+        </h2>
+        <p class="event-date-p">{{special_event.value.event_date_range}}</p>
+        </div>
+        <img slot="end" src="/assets/arrow2.svg" class="arrow">
+      </a>
+
+  </span>
+  <!-- <a class="special-event-teaser" routerLink="/special-event" routerDirection="forward">
+    <div class="holder1">
+    <h2 class="special-event-teaser-name">
+      The 2019 Grand Cayman Partnering For Success Meeting
+    </h2>
+    <p class="event-date-p">Nov 13 - Nov 15, 2019 </p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="special-event-teaser" routerLink="/special-event" routerDirection="forward">
+    <div class="holder2">
+    <h2 class="special-event-teaser-name">
+      The 2019 Grand Cayman Partnering For Success Meeting
+    </h2>
+    <p class="event-date-p">Nov 13 - Nov 15, 2019 </p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="special-event-teaser" routerLink="/special-event" routerDirection="forward">
+    <div class="holder3">
+    <h2 class="special-event-teaser-name">
+      The 2019 Grand Cayman Partnering For Success Meeting
+    </h2>
+    <p class="event-date-p">Nov 13 - Nov 15, 2019 </p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a>
+  <a class="special-event-teaser" routerLink="/special-event" routerDirection="forward">
+    <div class="holder4">
+    <h2 class="special-event-teaser-name">
+      The 2019 Grand Cayman Partnering For Success Meeting
+    </h2>
+    <p class="event-date-p">Nov 13 - Nov 15, 2019 </p>
+    </div>
+    <img slot="end" src="/assets/arrow2.svg" class="arrow">
+  </a> -->
+</div>
+</ion-content>
+

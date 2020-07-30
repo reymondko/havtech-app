@@ -1,0 +1,76 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-dining">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="event-landing-hero" *ngIf="event.event_types==2" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="white-section">
+    <ion-select class="select-bar" [(ngModel)]="selected_dining" (ionChange)="selectDiningDate()" [selectedText]="selected_text">
+        <ion-select-option value="{{i}}" *ngFor="let dining of dinings; index as i">
+          {{formatDate(dining?.meal_date)|date:'EEEE, MMMM d, y'}}
+        </ion-select-option>
+    </ion-select>
+  </div>
+  <span *ngIf="dinings">
+    <span *ngFor="let dining of dinings[selected_dining]?.data">
+        <div class="gray-bar">
+            Dining: {{dining.type_name}}
+        </div>
+        <div class="white-section" >
+            <br>
+            <div class="spaced-p-holder">
+              <p class="a1">Location:</p>
+              <p class="a2">{{dining.location}}</p>
+            </div>
+            <div class="spaced-p-holder">
+              <p class="a1">Date:</p>
+              <p class="a2">{{formatDate(dining?.meal_date)|date:'EEEE, MMMM d, y'}}</p>
+            </div>
+            <div class="spaced-p-holder">
+              <p class="a1">Time:</p>
+              <p class="a2">{{dining?.start_time}} - {{dining?.end_time}}</p>
+            </div> 
+            <p class="detail-p" [innerHTML]="dining.description | safeHtml">
+             
+            </p> 
+            <p class="detail-p">
+              <span class="clickable-address" (click)="helper.openMapUrlFromAddress(dining.address1,dining.address2,dining.city,dining.state,dining.zip,dining.country)">
+                  <span style="color:#535353;font-weight:500;">{{dining.location}}</span><br>
+                  <span *ngIf="dining.address1">{{dining.address1}} <br></span> 
+                  <span *ngIf="dining.address2">{{dining.address2}}<br></span>
+                  <br *ngIf="!dining.location_address2">
+                  <span *ngIf="dining.city">{{dining.city}}, </span> 
+                  <span *ngIf="dining.state">{{dining.state}}, </span>
+                  <span *ngIf="dining.zip">{{dining.zip}}, </span> 
+                  <span *ngIf="dining.country">{{dining.country}}<br></span>
+                  <br *ngIf="!dining.country">
+              </span>
+              <a *ngIf="dining.phone" href="tel:{{dining.phone}}">+{{dining.phone}}</a>
+            </p>
+            <div class="detail-btn-holder">
+              <!-- <button *ngIf="dining.directions_url" class="detail-btn directions-btn">Directions</button>
+              <a href="{{dining.website_url}}" *ngIf="dining.website_url != null" class="link-btn"><button class="detail-btn website-btn">Website</button></a> -->
+              <button *ngIf="dining.directions_url" (click)="goToUrl(dining.directions_url)" class="detail-btn directions-btn link-btn" >Directions</button>
+              <button *ngIf="dining.website_url" (click)="goToUrl(dining.website_url)" class="detail-btn website-btn link-btn">Website</button>
+            </div>
+          </div>
+    </span>
+  </span>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

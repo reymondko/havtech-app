@@ -1,0 +1,235 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content class="context-special-events-list">
+  <div class="orange-bar">
+    <h1 class="page-title">Event Registration</h1>
+  </div>
+  <div class="white-section" *ngIf="!registered">
+    <p class="event-title-p large">
+        {{event?.event_name}}
+    </p>
+
+    <!--<p class="event-sub-p">{{formatDate(event?.start_date)|date:'MMM d, yyyy'}}<br>
+      {{formatDate(event?.start_date)| date:'shortTime'}} - {{formatDate(event?.end_date)| date:'shortTime'}}<br>
+      Event Type: {{event?.event_types | eventType }}
+    </p> !-->
+    <div *ngIf="!registered">
+      <p class="event-sub-p"  *ngIf="!registered">Select which sessions you are interested in attending:
+      </p>
+      <div class="schedule-date-section" *ngFor="let grouped_schedule of event?.grouped_schedules|keyvalue; let i = index"  >
+        <!---- <div class="gray-bar">
+          {{formatDateKey(grouped_schedule.key)|date:'EEEE, MMMM d, y'}}
+        </div>!-->
+          <div class="schedule-event gray-bg ion-activatable" *ngFor="let schedule of grouped_schedule.value|keyvalue" (click)="selectCustomSchedule(grouped_schedule.key,schedule.key)" >
+            <span *ngIf="schedule.value?.selected" class="yellow-circle-left" (click)="deductTotal(schedule.value?.price)"></span> 
+            <span *ngIf="!schedule.value?.selected" class="outline-circle-left" (click)="addTotal(schedule.value?.price)"></span>
+            <div class="hn-content" style="width:90%">
+              <p class="paragraph">
+                <span class="hn-location" *ngIf="schedule.value?.city">{{schedule.value?.city}}</span>
+                <span class="hn-location" *ngIf="schedule.value?.city && schedule.value?.state">, </span>
+                <span class="hn-location" *ngIf="schedule.value?.state">{{schedule.value?.state}}</span>
+                <span class="hn-location" *ngIf="schedule.value?.city || schedule.value?.state">: </span>
+                <!--<span class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}: </span>!-->
+                  <span class="hn-time" >{{ formatDate(schedule.value?.start_date) |date:' MMMM d' }}: </span>
+                  <span class="event-title">{{schedule.value?.title}} </span>
+                  <span class="hn-time" >Begins {{ formatDate(schedule.value?.start_date) | date:'h:mm a' }} to {{ formatDate(schedule.value?.end_date) | date:'h:mm a' }}</span>
+                  <span class="hn-time" *ngIf="schedule.value?.price != 0"><br> Price: ${{schedule.value?.price}}</span>
+              </p>
+            </div>
+          </div>
+         
+      </div>
+
+    </div>
+    <p class="event-sub-p">Event Registration Fee: {{event?.cost_per_person_display}}</p>
+    <p class="event-sub-p">TOTAL AMOUNT: ${{Total}}</p>
+
+    <div *ngIf="!registered">
+      <form #form="ngForm" (ngSubmit)="registerEvent(form)">
+        <ion-input class="form-field" type="text"  hidden name="total" [(ngModel)]="Total"></ion-input>
+        <ion-input class="form-field" type="text"  hidden name="payment_method" [(ngModel)]="payment_method"></ion-input>
+        
+        <ion-label class="form-label">First Name:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="first_name" name="first_name" [(ngModel)]="user_data.first_name"></ion-input>
+
+        <ion-label class="form-label">Last Name:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="last_name" name="last_name" [(ngModel)]="user_data.last_name"></ion-input>
+
+        <ion-label class="form-label">Company:</ion-label>
+        <ion-input class="form-field" type="text" ngModel type="company" name="company" [(ngModel)]="user_data.company"></ion-input>
+
+        <ion-label class="form-label">Title:</ion-label>
+        <ion-input classwww="form-field" type="text" ngModel type="first_name" name="title" [(ngModel)]="user_data.title"></ion-input>
+
+        <ion-label class="form-label">Customer Type:</ion-label>
+        <ion-select value="brown" okText="OK" cancelText="Cancel"  ngModel type="industry" class="form-field" name="industry" [(ngModel)]="user_data.industry" [selectedText]="user_data.industry">
+          <ion-select-option *ngFor="let industry of industries" value="{{industry}}">
+            {{industry}}
+          </ion-select-option >
+        </ion-select>
+
+        <ion-label class="form-label">Email:</ion-label>
+        <ion-input class="form-field" type="email" ngModel type="email" name="email" [(ngModel)]="user_data.email"></ion-input>
+
+        <ion-label class="form-label">Telephone:</ion-label>
+        <ion-input class="form-field" type="tel" ngModel type="telephone" name="telephone" [(ngModel)]="user_data.phone"></ion-input>
+
+        <div *ngIf="Total > 0">
+          <ion-list radio-group >
+            <ion-list-header>
+              <ion-label>Payment Information:</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label class="form-label">Pay With Check</ion-label>
+              <ion-radio value="check" slot="start" value="1" (click)="payment_method_event(0)" name="payment_method" checked="{{this.payment_method_check}}" required></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label class="form-label">Pay With Credit Card</ion-label>
+              <ion-radio value="cc" slot="start" value="1" (click)="payment_method_event(1)" name="payment_method" checked="{{this.payment_method_cc}}" required></ion-radio>
+            </ion-item>
+          </ion-list>
+
+          <div *ngIf="payment_method_cc">  
+            <ion-label class="form-label">Credit Card Number:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="cc_number" name="cc_number" [(ngModel)]="payment.cc_number" required></ion-input>
+
+            <ion-label class="form-label">Name On Card:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="cc_name" name="cc_name" [(ngModel)]="payment.cc_name" required></ion-input>
+
+            <ion-label class="form-label">Expiration Month:</ion-label>
+            <ion-select value="brown" okText="OK" cancelText="Cancel"  ngModel class="form-field" name="expiration_month" [(ngModel)]="payment.expiration_month" [selectedText]="payment.expiration_month" required>
+                <ion-select-option  value='01' >Janaury</ion-select-option >
+                <ion-select-option  value='02'>February</ion-select-option >
+                <ion-select-option  value='03'>March</ion-select-option >
+                <ion-select-option  value='04'>April</ion-select-option >
+                <ion-select-option  value='05'>May</ion-select-option >
+                <ion-select-option  value='06'>June</ion-select-option >
+                <ion-select-option  value='07'>July</ion-select-option >
+                <ion-select-option  value='08'>August</ion-select-option >
+                <ion-select-option  value='09'>September</ion-select-option >
+                <ion-select-option  value='10'>October</ion-select-option >
+                <ion-select-option  value='11'>November</ion-select-option >
+                <ion-select-option  value='12'>December</ion-select-option >
+            </ion-select>
+
+            <ion-label class="form-label">Expiration Year:</ion-label>
+            <ion-select value="brown" okText="OK" cancelText="Cancel"  ngModel class="form-field" name="expiration_year" [(ngModel)]="payment.expiration_year" [selectedText]="payment.expiration_year" required>
+                  <ion-select-option  value='2020' >2020</ion-select-option >
+                  <ion-select-option  value='2021' >2021</ion-select-option >
+                  <ion-select-option  value='2022'>2022</ion-select-option >
+                  <ion-select-option  value='2023'>2023</ion-select-option >
+                  <ion-select-option  value='2024'>2024</ion-select-option >
+                  <ion-select-option  value='2025'>2025</ion-select-option >
+                  <ion-select-option  value='2026'>2026</ion-select-option >
+                  <ion-select-option  value='2027'>2027</ion-select-option >
+                  <ion-select-option  value='2028'>2028</ion-select-option >
+                  <ion-select-option  value='2029'>2029</ion-select-option >
+                  <ion-select-option  value='2030'>2030</ion-select-option >
+            </ion-select>
+            <ion-label class="form-label">CVV:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="ccv" name="CVV-CVC" [(ngModel)]="payment.ccv" required></ion-input>
+            
+            <ion-label class="form-label">Billing Address:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="cc_name" name="billing_address" [(ngModel)]="payment.billing_address"required></ion-input>
+            
+            <ion-label class="form-label">Billing City:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="billing_city" name="billing_city" [(ngModel)]="payment.billing_city" required></ion-input>
+            
+            <ion-label class="form-label">Billing State:</ion-label>
+            <ion-select value="brown" okText="OK" cancelText="Cancel"  ngModel class="form-field" name="billing_state" [(ngModel)]="payment.billing_state" [selectedText]="payment.billing_state"required>
+                <ion-select-option  value="AL">Alabama</ion-select-option >
+                <ion-select-option  value="AK">Alaska</ion-select-option >
+                <ion-select-option  value="AZ">Arizona</ion-select-option >
+                <ion-select-option  value="AR">Arkansas</ion-select-option >
+                <ion-select-option  value="CA">California</ion-select-option >
+                <ion-select-option  value="CO">Colorado</ion-select-option >
+                <ion-select-option  value="CT">Connecticut</ion-select-option >
+                <ion-select-option  value="DE">Delaware</ion-select-option >
+                <ion-select-option  value="DC">District Of Columbia</ion-select-option >
+                <ion-select-option  value="FL">Florida</ion-select-option >
+                <ion-select-option  value="GA">Georgia</ion-select-option >
+                <ion-select-option  value="HI">Hawaii</ion-select-option >
+                <ion-select-option  value="ID">Idaho</ion-select-option >
+                <ion-select-option  value="IL">Illinois</ion-select-option >
+                <ion-select-option  value="IN">Indiana</ion-select-option >
+                <ion-select-option  value="IA">Iowa</ion-select-option >
+                <ion-select-option  value="KS">Kansas</ion-select-option >
+                <ion-select-option  value="KY">Kentucky</ion-select-option >
+                <ion-select-option  value="LA">Louisiana</ion-select-option >
+                <ion-select-option  value="ME">Maine</ion-select-option >
+                <ion-select-option  value="MD">Maryland</ion-select-option >
+                <ion-select-option  value="MA">Massachusetts</ion-select-option >
+                <ion-select-option  value="MI">Michigan</ion-select-option >
+                <ion-select-option  value="MN">Minnesota</ion-select-option >
+                <ion-select-option  value="MS">Mississippi</ion-select-option >
+                <ion-select-option  value="MO">Missouri</ion-select-option >
+                <ion-select-option  value="MT">Montana</ion-select-option >
+                <ion-select-option  value="NE">Nebraska</ion-select-option >
+                <ion-select-option  value="NV">Nevada</ion-select-option >
+                <ion-select-option  value="NH">New Hampshire</ion-select-option >
+                <ion-select-option  value="NJ">New Jersey</ion-select-option >
+                <ion-select-option  value="NM">New Mexico</ion-select-option >
+                <ion-select-option  value="NY">New York</ion-select-option >
+                <ion-select-option  value="NC">North Carolina</ion-select-option >
+                <ion-select-option  value="ND">North Dakota</ion-select-option >
+                <ion-select-option  value="OH">Ohio</ion-select-option >
+                <ion-select-option  value="OK">Oklahoma</ion-select-option >
+                <ion-select-option  value="OR">Oregon</ion-select-option >
+                <ion-select-option  value="PA">Pennsylvania</ion-select-option >
+                <ion-select-option  value="RI">Rhode Island</ion-select-option >
+                <ion-select-option  value="SC">South Carolina</ion-select-option >
+                <ion-select-option  value="SD">South Dakota</ion-select-option >
+                <ion-select-option  value="TN">Tennessee</ion-select-option >
+                <ion-select-option  value="TX">Texas</ion-select-option >
+                <ion-select-option  value="UT">Utah</ion-select-option >
+                <ion-select-option  value="VT">Vermont</ion-select-option >
+                <ion-select-option  value="VA">Virginia</ion-select-option >
+                <ion-select-option  value="WA">Washington</ion-select-option >
+                <ion-select-option  value="WV">West Virginia</ion-select-option >
+                <ion-select-option  value="WI">Wisconsin</ion-select-option >
+                <ion-select-option  value="WY">Wyoming</ion-select-option >
+            </ion-select>
+
+            <ion-label class="form-label">Billing Zip:</ion-label>
+            <ion-input class="form-field" type="text" ngModel type="billing_zip" name="billing_zip" [(ngModel)]="payment.billing_zip" required></ion-input>
+            </div>  
+
+            <div *ngIf="payment_method_check">
+              <ion-label class="form-label">Check Number:</ion-label>
+              <ion-input class="form-field" type="text" ngModel type="check_number" name="check_number" [(ngModel)]="payment.check_number" required></ion-input>
+              
+            </div>  
+        </div>
+
+        <ion-button type="submit" expand="block" class="modal-btn orange submit-btn" fill="clear">Register</ion-button><br>
+      </form>
+    </div>
+  </div>
+    <div *ngIf="registered">
+        <div class="registered-checkmark"><img src="/assets/icon-checkmark2.svg" style="width:20px;margin-right:10px;">Thank you for registering</div>
+        <!-- <p class="description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p> -->
+        <div class="schedule-date-section" *ngFor="let grouped_custom_schedules of event?.grouped_custom_schedules|keyvalue; let i = index"  style="padding: inherit;text-align: center;" >
+          <!---- <div class="gray-bar">
+            {{formatDateKey(grouped_custom_schedules.key)|date:'EEEE, MMMM d, y'}}
+          </div>!-->
+            <div class="schedule-event gray-bg ion-activatable" *ngFor="let schedule of grouped_custom_schedules.value|keyvalue" (click)="selectCustomSchedule(grouped_custom_schedules.key,schedule.key)" >
+              <div class="hn-content" style="width:90%">
+                <p class="paragraph">
+                  <span class="hn-location" *ngIf="schedule.value?.city">{{schedule.value?.city}}</span>
+                  <span class="hn-location" *ngIf="schedule.value?.city && schedule.value?.state">, </span>
+                  <span class="hn-location" *ngIf="schedule.value?.state">{{schedule.value?.state}}</span>
+                  <span class="hn-location" *ngIf="schedule.value?.city || schedule.value?.state">: </span>
+                    <!--<span class="hn-location" *ngIf="schedule.value?.room_number">{{schedule.value?.room_number}}: </span>!-->
+                    <span class="hn-time" >{{ formatDate(schedule.value?.start_date) |date:' MMMM d' }}: </span>
+                    <span class="event-title">{{schedule.value?.title}} </span>
+                    <span class="hn-time" >Begins {{ formatDate(schedule.value?.start_date) | date:'h:mm a' }} to {{ formatDate(schedule.value?.end_date) | date:'h:mm a' }}</span>
+                </p>
+              </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</ion-content>

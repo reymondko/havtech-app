@@ -1,0 +1,75 @@
+<app-header [eventType]="event.event_types"></app-header>
+<ion-content fullscreen class="context-special-event-transportation">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-event-tabs [event]=event></app-event-tabs>
+  <div class="event-landing-hero" *ngIf="event.event_types==2" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(236, 121, 14, 0.9), rgba(255, 143, 46, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="event-landing-hero" *ngIf="event.event_types==1" [ngStyle]="{'background-image':'linear-gradient(45deg, rgba(0, 29, 71, 0.9), rgba(68, 158, 255, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <div class="learning-event-landing-hero" *ngIf="event.event_types==3" [ngStyle]="{'background-image':'linear-gradient(45deg, rgb(98, 98, 98, 1), rgba(120, 120, 120, 0.6)),url('+event.image+')'}">
+    <h1 class="special-event-name">{{event.event_name}}
+    </h1>
+  </div>
+  <span *ngIf="event.transportations">
+    <span *ngFor="let transportation of event.transportations">
+        <div class="gray-bar" *ngIf="transportation?.flight_description">
+            Transportation: Air
+          </div>
+          <div class="white-section" *ngIf="transportation?.flight_description">
+              <p class="detail-p" [innerHTML]="transportation?.flight_description | safeHtml">
+                </p>
+          </div>
+          <div class="gray-bar flexy-bar">
+          Transportation: Ground
+            <!-- <button class="download-btn">Download <img src="/assets/icon-pdf.svg" width="20" style="margin-left:8px;"></button> -->
+          </div>
+          <div class="white-section">          
+            <p class="detail-p">
+              <span class="clickable-address" (click)="helper.openMapUrlFromAddress(transportation.address1,transportation.address2,transportation.city,transportation.state,transportation.zip,transportation.country)">
+                <!--<span style="color:#535353;font-weight:500;">{{transportation?.company_name}}</span><br>
+                <span *ngIf="transportation.service_address1">{{transportation.service_address1}}; <br></span> 
+                <span *ngIf="transportation.service_address2">{{transportation.service_address2}}<br></span>
+                <span *ngIf="transportation.address1">{{transportation.address1}} </span> 
+                <span *ngIf="transportation.address2">{{transportation.address2}}<br></span>
+                <br *ngIf="!transportation.address2">
+                <span *ngIf="transportation.city">{{transportation.city}},</span> 
+                <span *ngIf="transportation.state">{{transportation.state}}<br></span>
+                <br *ngIf="!transportation.state">
+                <span *ngIf="transportation.zip">{{transportation.zip}}, </span> 
+                <span *ngIf="transportation.country">{{transportation.country}}<br></span>
+                <br *ngIf="!transportation.country">!--->
+                <span style="color:#535353;font-weight:500;">{{transportation?.company_name}}</span><br>
+                <span *ngIf="transportation.service_address1">{{transportation.service_address1}} </span> <br>
+                <span *ngIf="transportation.service_address2">{{transportation.service_address2}}</span><br>
+                <span *ngIf="transportation.address1">{{transportation.address1}} <br></span> 
+                <span *ngIf="transportation.address2">{{transportation.address2}}<br></span>
+                <br *ngIf="!transportation.location_address2">
+                <span *ngIf="transportation.city">{{transportation.city}}, </span> 
+                <span *ngIf="transportation.state">{{transportation.state}}, </span>
+                <span *ngIf="transportation.zip">{{transportation.zip}}, </span> 
+                <span *ngIf="transportation.country">{{transportation.country}}<br></span>
+                <br *ngIf="!transportation.country">
+              </span>
+              <a *ngIf="transportation?.phone" href="tel:{{transportation.phone}}">+{{transportation.phone}}</a>
+            </p>
+            <p class="detail-p" [innerHTML]="transportation.description">
+            </p> 
+            <div class="detail-btn-holder">
+              <button *ngIf="transportation.directions_url" (click)="goToUrl(transportation.directions_url)" class="detail-btn directions-btn link-btn" >Directions</button>
+              <button *ngIf="transportation.website_url" (click)="goToUrl(transportation.website_url)" class="detail-btn website-btn link-btn">Website</button>
+            </div>
+          </div>
+    </span>
+  </span>
+  <app-image-upload></app-image-upload>
+  <div class="white-section">
+    <app-event-gallery [preview]="true" [photos]="eventsService.current_selected_event_data.photos"></app-event-gallery>
+    <app-event-footer [host]="event?.event_host"></app-event-footer>
+ </div>
+</ion-content>

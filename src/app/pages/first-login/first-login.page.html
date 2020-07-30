@@ -1,0 +1,36 @@
+<ion-content class="context-login-screen" >
+  <div class="login-screen">
+    <div class="login-logo">
+      <!--<img src="/assets/Havtech_eventshub_logo-white.svg">!-->
+      <img src="/assets/Havtech_logo_final.png">
+    </div>
+    <div class="login-field-holder">
+    <form #form="ngForm" (ngSubmit)="login(form)" method="post">
+      <p class="fp-header">First Time Logging In?</p>
+      <p class="fp-p">Please enter the email address associated with this account, followed by your temporary password.</p><br>
+      <ion-label class="login-label">Email:</ion-label>
+      <ion-list class="login-shadow">
+        <ion-item>
+          <ion-input class="login-field" ngModel type="email" name="email"></ion-input>
+        </ion-item>
+      </ion-list>
+      <!--<p class="fp-p">Enter your temporary password below followed by your permanent password:</p><br>!-->
+      <ion-label class="login-label">Temporary Password:</ion-label>
+      <ion-list class="login-shadow">
+        <ion-item>
+          <ion-input class="login-field" ngModel type="password" name="password"></ion-input>
+        </ion-item>
+      </ion-list><br>
+      <p class="fp-p">Please choose a permanent password and enter it below:</p><br>
+      <ion-label class="login-label">Set Permanent Password:</ion-label>
+      <ion-list class="login-shadow">
+        <ion-item>
+          <ion-input class="login-field" ngModel type="password" name="password_new"></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button  type="submit" expand="block" class="login-btn" fill="clear">Create account</ion-button>
+    </form>
+    </div>
+    <a class="terms-p" href="#">Terms of Use &amp; Policy</a>
+  </div>
+</ion-content>
